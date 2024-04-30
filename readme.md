@@ -2,6 +2,9 @@
 
 Pelatihan ini adalah proyek sederhana tentang pariwisata menggunakan PHP dan JavaScript.
 
+## Update Source Code
+https://github.com/novanrohman/vsga
+
 ## Instalasi
 
 Berikut adalah langkah-langkah untuk menginstal proyek ini:
