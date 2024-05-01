@@ -1,16 +1,3 @@
-<?php
-session_start();
-// proteksi session jika user belum login
-if (!isset($_SESSION['role'])) {
-    header('Location: /pages/booking.php');
-}
-
-if ($_SESSION['role'] != 'customer') {
-    header('Location: /login.php');
-}
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -123,7 +110,6 @@ if ($_SESSION['role'] != 'customer') {
                             <span class="input-group-text" id="inputGroupPrepend2">/Orang</span>
                         </div>
                     </div>
-                    <div id="emailHelp" class="form-text text-danger">*Lebih dari 10 orang discount 5% | Lebih dari 25 orang discount 10% | Lebih dari 40 orang discount 15%</div>
                     <div class="span"></div>
                     <input type="hidden" name="total_harga" id="total_harga_input" value="0">
                     <input type="hidden" name="discount" id="discount_input" value="0">
@@ -157,7 +143,7 @@ if ($_SESSION['role'] != 'customer') {
                                 <td class="text-end">Rp <span id="total_harga">0</span></td>
                             </tr>
                             <tr>
-                                <th scope="row" class="text-success">Discount <span id="discount"></span></th>
+                                <th scope="row" class="text-success">Discount</th>
                                 <td class="text-end text-success">- Rp <span id="disc">0</span></td>
                             </tr>
                             <tr>
@@ -255,7 +241,6 @@ if ($_SESSION['role'] != 'customer') {
         let bus = document.getElementsByName("jenis_bus")[0].value;
         var harga_wisata = 0; //Harga tempat Wisata
         var harga_bus = 0; //Harga Bus
-        var discount = 0;
         var disc = 0;
         // console.log(tujuan);
 
@@ -279,25 +264,24 @@ if ($_SESSION['role'] != 'customer') {
         }
 
         //Cek jumlah orang
-        if (jml_orang> 10) {
-            discount = (0.5);
-        } else if (jml_orang > 25) {
-            discount = 0.10;
-        } else if (jml_orang > 40) {
-            discount = 0.15;
+        if (jml_orang >= 10) {
+            disc = (0.5);
+        } else if (jml_orang >= 25) {
+            disc = 0.10;
+        } else if (jml_orang >= 40) {
+            disc = 0.15;
         } else {
-            discount = 0;
+            disc = 0;
         }
 
         var sewa = harga_wisata + (harga_bus * jml_orang); //Harga sewa bus dengan tujuan tertentu
         var total = (sewa * hari); //Harga sewa
         var ppn = total * (11 / 100);
         total_harga = total + ppn;
-        disc = total_harga * discount;
+        disc = total_harga * disc;
         var total_bayar = total_harga - disc;
         // console.log(totalBayar);
-        
-        //Output by id element
+        //Output
         document.getElementById("total_bayar").innerText = parseInt(total_bayar);
         document.getElementById("ppn").innerText = parseInt(ppn);
         document.getElementById("disc").innerText = (disc);

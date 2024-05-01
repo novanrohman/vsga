@@ -25,7 +25,7 @@
             </ul>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="../../login.php">Login</a>
+            <a class="nav-link" href="/app/http/logout.php">Logout</a>
           </li>
         </ul>
       </div>
