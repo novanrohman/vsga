@@ -8,14 +8,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
 <!-- Bootstrap CSS v5.2.1 -->
-<link href="../css/bootstrap.min.css" rel="stylesheet" />
+<link href="../../css/bootstrap.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="../css/style.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 
 <!-- Navbar -->
-<?php include('./components/nav-login.php') 
-?>
+
+<?php include('../../config/config.php') ?>
+<?php include('../components/nav-login.php') ?>
 <!-- End Navbar -->
 <header>
 
@@ -40,126 +41,148 @@
                 </div>';
             }
         }
+
+
+        $id = $_GET['id']; //mengambil id get
+        $query_mysql = mysqli_query($conn, "SELECT * FROM sewa WHERE id='$id'") or die(mysqli_error());
+        // $nomor = 1;
+        while ($data = mysqli_fetch_array($query_mysql)) {
         ?>
-        <div class="card">
-            <div class="card-body">
-                <h3 class="text-center mb-3">Formulir Sewa</h3>
-                <form class="row g-3 needs-validation " novalidate onsubmit="return simpan()" action="/app/http/proses-sewa.php" method="POST">
-                    <div class="col-md-4">
-                        <label for="validationCustom01" class="form-label">Nama</label>
-                        <input type="text" class="form-control" id="validationCustom01" name="nama" placeholder="Nama anda" required old>
-                        <div class="invalid-feedback">
-                            Nama belum diisi
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="validationCustom01" class="form-label">E-mail</label>
-                        <input type="text" class="form-control" id="validationCustom01" name="email" placeholder="E-mail anda" required old>
-                        <div class="invalid-feedback">
-                            E-mail belum diisi
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="validationCustom01" class="form-label">Telp</label>
-                        <input type="text" class="form-control" id="validationCustom01" name="telp" placeholder="Telp anda" required old>
-                        <div class="invalid-feedback">
-                            Telp belum diisi
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="validationCustom02" class="form-label">Tanggal Sewa</label>
-                        <input type="date" class="form-control" id="validationCustom02" name="tgl_sewa" placeholder="dd/mm/yy" required>
-                        <div class="invalid-feedback">
-                            Tanggal harus diisi
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="validationCustom03" class="form-label">Jenis Bus</label>
-                        <select type="text" class="form-select" id="validationCustom03" name="jenis_bus" required>
-                            <option value="" selected disabled>Pilih</option>
-                            <option value="Vip">VIP</option>
-                            <option value="Standar">Standar</option>
-                            <option value="Ekonomi">Ekonomi</option>
-                        </select>
-                        <div class="invalid-feedback">
-                            Please provide a valid city.
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="validationCustomUsername" class="form-label">Hari</label>
-                        <div class="input-group has-validation">
-                            <input type="number" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" value="1" min="1" name="hari_sewa" placeholder="Jumlah orang" plarequired>
-                        </div>
-                    </div>
-                    <div class="col-md-8">
-                        <label for="validationCustom03" class="form-label">Tujuan</label>
-                        <select type="text" class="form-select" id="validationCustom03" name="tujuan" required>
-                            <option value="" selected disabled>Pilih</option>
-                            <option value="Alas Purwo">Alas Purwo</option>
-                            <option value="Baluran">Baluran</option>
-                            <option value="Djawatan">Djawatan</option>
-                        </select>
-                        <div class="invalid-feedback">
-                            Please provide a valid city.
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="validationDefaultUsername" class="form-label">Jumlah orang</label>
-                        <div class="input-group">
-                            <input type="number" class="form-control" id="validationDefaultUsername" aria-describedby="inputGroupPrepend2" value="1" name="jumlah_orang" required>
-                            <span class="input-group-text" id="inputGroupPrepend2">/Orang</span>
-                        </div>
-                    </div>
-                    <div class="span"></div>
-                    <input type="hidden" name="total_harga" id="total_harga_input" value="0">
-                    <input type="hidden" name="discount" id="discount_input" value="0">
-                    <div class="col-12">
-                        <button class="btn btn-primary w-100" id="hitung-btn" onclick="simpan()">Hitung</button>
-                    </div>
-                    <!-- Detail Pembayaran -->
-                    <hr>
-                    <p class="fw-bold">Detail pembayaran</p>
 
-                    <table class="table table-borderless">
-                        <tbody>
-                            <tr>
-                                <th scope="row">Lama sewa</th>
-                                <td class="text-end"><span id="hari">0</span> hari</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Jumlah orang</th>
-                                <td class="text-end"><span id="jml_orang">0</span> orang</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Harga Sewa</th>
-                                <td class="text-end">Rp <span id="sewa">0</span> </td>
-                            </tr>
-                            <tr>
-                                <th scope="row" class="text-danger">PPN 11%</th>
-                                <td class="text-end text-danger">Rp <span id="ppn">0</span></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Total</th>
-                                <td class="text-end">Rp <span id="total_harga">0</span></td>
-                            </tr>
-                            <tr>
-                                <th scope="row" class="text-success">Discount</th>
-                                <td class="text-end text-success">- Rp <span id="disc">0</span></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Total Pembayaran</th>
-                                <td class="text-end" name="total_bayar">Rp <span id="total_bayar">0</span></td>
-                            </tr>
-                    </table>
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="text-center mb-3">Edit Sewa</h3>
+                    <form class="row g-3 needs-validation " novalidate onsubmit="return simpan()" action="/app/http/update.php"   method="POST">
+                        <input hidden type="text" class="form-control" id="validationCustom01" name="id" placeholder="Nama anda" value="<?php echo $data['id'] ?>">
+                        <div class="col-md-4">
+                            <label for="validationCustom01" class="form-label">Nama</label>
+                            <input type="text" class="form-control" id="validationCustom01" name="nama" placeholder="Nama anda" value="<?php echo $data['nama'] ?>" required old>
+                            <div class="invalid-feedback">
+                                Nama belum diisi
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="validationCustom01" class="form-label">E-mail</label>
+                            <input type="text" class="form-control" id="validationCustom01" name="email" placeholder="E-mail anda" value="<?php echo $data['email'] ?>" required old>
+                            <div class="invalid-feedback">
+                                E-mail belum diisi
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="validationCustom01" class="form-label">Telp</label>
+                            <input type="text" class="form-control" id="validationCustom01" name="telp" placeholder="Telp anda" value="<?php echo $data['telp'] ?>" required old>
+                            <div class="invalid-feedback">
+                                Telp belum diisi
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="validationCustom02" class="form-label">Tanggal Sewa</label>
+                            <input type="date" class="form-control" id="validationCustom02" name="tgl_sewa" placeholder="dd/mm/yy" value="<?php echo $data['tgl_sewa'] ?>" required>
+                            <div class="invalid-feedback">
+                                Tanggal harus diisi
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="validationCustom03" class="form-label">Jenis Bus</label>
+                            <select type="text" class="form-select" id="validationCustom03" name="jenis_bus" " required>
 
-                    <button name="submit" value="submit" class="btn btn-outline-primary mx-auto w-100 mt-3">Bayar</button>
+                            <?php if ($data['jenis_bus'] == "Vip") echo "<option value='Vip' selected >Vip</option>";
+                            else echo "<option value='Vip'  >Vip</option>"; ?>
+                            <?php if ($data['jenis_bus'] == "Standar") echo "<option value='Standar' selected >Standar</option>";
+                            else echo "<option value='Standar'  >Standar</option>"; ?>
+                            <?php if ($data['jenis_bus'] == "Ekonomi") echo "<option value='Ekonomi' selected >Ekonomi</option>";
+                            else echo "<option value='Ekonomi'  >Ekonomi</option>"; ?>
+
+                        </select>
+                        <div class=" invalid-feedback">
+                                Pilih jenis bus.
+                        </div>
+                </div>
+                <div class="col-md-4">
+                    <label for="validationCustomUsername" class="form-label">Hari</label>
+                    <div class="input-group has-validation">
+                        <input type="number" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" value="<?php echo $data['hari_sewa'] ?>" min="1" name="hari_sewa" placeholder="Jumlah orang" plarequired>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <label for="validationCustom03" class="form-label">Tujuan</label>
+                    <select type="text" class="form-select" id="validationCustom03" name="tujuan" required>
+
+                        <?php if ($data['jenis_bus'] == "Alas Purwo") echo "<option value='Alas Purwo' selected >Alas Purwo</option>";
+                        else echo "<option value='Alas Purwo'  >Alas Purwo</option>"; ?>
+                        <?php if ($data['jenis_bus'] == "Baluran") echo "<option value='Baluran' selected >Baluran</option>";
+                        else echo "<option value='Baluran'  >Baluran</option>"; ?>
+                        <?php if ($data['jenis_bus'] == "Djawatan") echo "<option value='Djawatan' selected >Djawatan</option>";
+                        else echo "<option value='Djawatan'  >Djawatan</option>"; ?>
+                        
+                    </select>
+                    <div class="invalid-feedback">
+                        Pilih tempat
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label for="validationDefaultUsername" class="form-label">Jumlah orang</label>
+                    <div class="input-group">
+                        
+                        <input type="number" class="form-control" id="validationDefaultUsername" aria-describedby="inputGroupPrepend2" value="<?php echo $data['jumlah_orang'] ?>" name="jumlah_orang" required>
+                        <span class="input-group-text" id="inputGroupPrepend2">/Orang</span>
+                    </div>
+                </div>
+                
+                <div id="emailHelp" class="form-text text-danger">*Lebih dari 10 orang discount 5% | Lebih dari 25 orang discount 10% | Lebih dari 40 orang discount 15%</div>
+
+                <input type="hidden" name="total_harga" id="total_harga_input" value="0">
+                <input type="hidden" name="discount" id="discount_input" value="0">
+                <div class="col-12">
+                    <button class="btn btn-primary w-100" id="hitung-btn" onclick="simpan()">Hitung</button>
+                </div>
+                <!-- Detail Pembayaran -->
+                <hr>
+                <p class="fw-bold">Detail pembayaran</p>
+
+                <table class="table table-borderless">
+                    <tbody>
+                        <tr>
+                            <th scope="row">Lama sewa</th>
+                            <td class="text-end"><span id="hari">0</span> hari</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Jumlah orang</th>
+                            <td class="text-end"><span id="jml_orang">0</span> orang</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Harga Sewa</th>
+                            <td class="text-end">Rp <span id="sewa">0</span> </td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="text-danger">PPN 11%</th>
+                            <td class="text-end text-danger">Rp <span id="ppn">0</span></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Total</th>
+                            <td class="text-end">Rp <span id="total_harga">0</span></td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="text-success">Discount</th>
+                            <td class="text-end text-success">- Rp <span id="disc">0</span></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Total Pembayaran</th>
+                            <td class="text-end" name="total_bayar">Rp <span id="total_bayar">0</span></td>
+                        </tr>
+                </table>
+
+                <button name="submit" value="update" name="update" class="btn btn-outline-primary mx-auto w-100 mt-3">Update</button>
 
                 </form>
             </div>
-        </div>
+    </div>
     </div>
     </div>
 </main>
+
+<?php } ?>
+
 <footer class="bg-primary text-white ">
     <div class="container">
         <div class="row p-3">

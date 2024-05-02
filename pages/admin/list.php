@@ -49,12 +49,12 @@ if ($_SESSION['role'] != 'admin') {
                     if ($status === "sukses") {
                         // If status is success, display success alert
                         echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
-                Registrasi berhasil!
+                Update berhasil!
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>';
                     } else if ($status === 'gagal') {
                         echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    Akun telah terdaftar!
+                    Update gagal!!
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>';
                     }
@@ -71,6 +71,7 @@ if ($_SESSION['role'] != 'admin') {
                                 <th scope="col">Telp</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Jenis Bus</th>
+                                <th scope="col">Tujuan</th>
                                 <th scope="col">Tanggal Sewa</th>
                                 <th scope="col">Lama Sewa</th>
                                 <th scope="col">Jumlah Orang</th>
@@ -85,18 +86,19 @@ if ($_SESSION['role'] != 'admin') {
 
                             foreach ($query as $key => $value) {
                                 echo "<tr>";
-                                echo "<td>" . $key + 1 . "</td>";
+                                echo "<td>" . $key + 1 . "</td>"; //Indexing
                                 echo "<td>" . $value['nama'] . "</td>";
                                 echo "<td>" . $value['telp'] . "</td>";
                                 echo "<td>" . $value['email'] . "</td>";
                                 echo "<td>" . $value['jenis_bus'] . "</td>";
+                                echo "<td>" . $value['tujuan'] . "</td>";
                                 echo "<td>" . $value['tgl_sewa'] . "</td>";
                                 echo "<td>" . $value['hari_sewa'] . " hari". "</td>";
                                 echo "<td>" . $value['jumlah_orang'] . "</td>";
                                 echo "<td>Rp " . $value['discount'] . "</td>";
                                 echo "<td>Rp " . $value['total_harga'] . "</td>";
                                 echo "<td>";
-                                echo "<a class='btn btn-primary' href='form-edit.php?id=" . $value['id'] . "'>Edit</a>  ";
+                                echo "<a class='btn btn-primary' href='edit.php?id=" . $value['id'] . "'>Edit</a>  ";
                                 echo "<a class='btn btn-danger' href='../../app/http/hapus.php?id=" . $value['id'] . "'>Hapus</a>";
                                 echo "</td>";
 
